@@ -5152,6 +5152,11 @@ void GPUSubsystem::_ApplyFramebufferSettings()
 	
 	this->_AllocateFramebuffers(colorFormat, w, h, pageCount);
 	
+	if (didWidthChange || didHeightChange)
+	{
+		BaseRenderer->SetFramebufferSize(w, h);
+	}
+	
 	if (CurrentRenderer != BaseRenderer)
 	{
 		if (didColorFormatChange)

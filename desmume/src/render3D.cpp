@@ -645,15 +645,15 @@ size_t Null3DColorOut::BindRenderer()
 
 Render3DError Null3DColorOut::SetSize(size_t w, size_t h)
 {
+	if ( (w == this->_framebufferWidth) && (h == this->_framebufferHeight) )
+	{
+		return RENDER3DERROR_NOERR;
+	}
+	
 	Render3DError error = Render3DColorOut::SetSize(w, h);
 	if (error != RENDER3DERROR_NOERR)
 	{
 		return error;
-	}
-	
-	if ( (w == this->_framebufferWidth) && (h == this->_framebufferHeight) )
-	{
-		return RENDER3DERROR_NOERR;
 	}
 	
 	Color4u8 *oldColor32 = this->_buffer32[0];
