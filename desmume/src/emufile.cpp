@@ -120,7 +120,7 @@ void EMUFILE_FILE::truncate(s32 length)
 	#endif
 	fclose(this->_fp);
 	this->_fp = NULL;
-	this->__open(this->_fname.c_str(), this->_mode);
+	this->__open(this->_fname, this->_mode);
 }
 
 int EMUFILE_FILE::fseek(int offset, int origin)
@@ -519,22 +519,21 @@ size_t EMUFILE::read_MemoryStream(EMUFILE_MEMORY &ms)
 	return 1;
 }
 
-void EMUFILE_FILE::__open(const char* fname, const char* mode)
+void EMUFILE_FILE::__open(const std::string& fname, const std::string& mode)
 {
 	this->_mPositionCacheEnabled = false;
 	this->_mCondition = eCondition_Clean;
 	this->_mFilePosition = 0;
 	
 	#ifdef HOST_WINDOWS
-	auto tmp = mbstowcs((std::string)fname);
-	this->_fp = _wfopen(tmp.c_str(),mbstowcs(mode).c_str());
+	this->_fp = _wfopen(mbstowcs(fname).c_str(), mbstowcs(mode).c_str());
 	#else
-	this->_fp = fopen(fname, mode);
+	this->_fp = fopen(fname.c_str(), mode.c_str());
 	#endif
 	
 	if (this->_fp == NULL)
 		this->_failbit = true;
 	
 	this->_fname = fname;
-	strcpy(this->_mode, mode);
+	this->_mode = mode;
 }

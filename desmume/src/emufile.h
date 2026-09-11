@@ -288,7 +288,7 @@ class EMUFILE_FILE : public EMUFILE {
 protected:
 	FILE* _fp;
 	std::string _fname;
-	char _mode[16];
+	std::string _mode;
 	long _mFilePosition;
 	bool _mPositionCacheEnabled;
 	
@@ -301,12 +301,11 @@ protected:
 	} _mCondition;
 
 private:
-	void __open(const char* fname, const char* mode);
+	void __open(const std::string& fname, const std::string& mode);
 
 public:
 
-	EMUFILE_FILE(const std::string& fname, const char* mode) { __open(fname.c_str(),mode); }
-	EMUFILE_FILE(const char* fname, const char* mode) { __open(fname,mode); }
+	EMUFILE_FILE(const std::string& fname, const std::string& mode) { __open(fname,mode); }
 
 	void EnablePositionCache();
 
